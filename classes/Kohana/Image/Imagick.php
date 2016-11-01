@@ -99,6 +99,27 @@ class Kohana_Image_Imagick extends Image {
 		return FALSE;
 	}
 
+	protected function _do_smart_crop($width, $height, $position)
+	{
+		switch ($position)
+		{
+			case Image::CENTER:
+				$this->im->cropThumbnailImage($width, $height);
+			break;
+			default:		
+				if (($this->width/$width) < ($this->height/$height))
+				{
+				    $this->crop($this->width, round($height*$this->width/$width), 0, 0);
+				}
+				else
+				{
+				    $this->crop(round($width*$this->height/$height), $this->height, 0, 0);
+				}
+				//$this->im->resizeImage($width, NULL, Imagick::FILTER_LANCZOS, 0, FALSE);
+				$this->im->scaleImage($width, $height, FALSE);
+		}
+	}	
+
 	protected function _do_rotate($degrees)
 	{
 		if ($this->im->rotateImage(new ImagickPixel('transparent'), $degrees))

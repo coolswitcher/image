@@ -22,6 +22,10 @@ abstract class Kohana_Image {
 	const HORIZONTAL = 0x11;
 	const VERTICAL   = 0x12;
 
+	//Crop constants
+	const CENTER = 0x13;
+	const TOP = 0x14;
+
 	/**
 	 * @deprecated - provide an image.default_driver value in your configuration instead
 	 * @var  string  default driver: GD, ImageMagick, etc
@@ -358,6 +362,29 @@ abstract class Kohana_Image {
 		return $this;
 	}
 
+	public function smart_crop ($width, $height, $position = NULL) 
+	{
+		if ($width > $this->width)
+		{
+			// Use the current width
+			$width = $this->width;
+		}
+
+		if ($height > $this->height)
+		{
+			// Use the current height
+			$height = $this->height;
+		}
+
+		if ($position === NULL)		
+		{
+			$position = Image::CENTER;
+		}
+		
+		$this->_do_smart_crop($width, $height, $position);
+		return $this;
+	}
+
 	/**
 	 * Rotate the image by a given amount.
 	 *
@@ -685,6 +712,16 @@ abstract class Kohana_Image {
 	 * @return  void
 	 */
 	abstract protected function _do_crop($width, $height, $offset_x, $offset_y);
+
+	/**
+	 * Execute a smart crop.
+	 *
+	 * @param   integer  $width     new width
+	 * @param   integer  $height    new height
+	 * @param   integer  $position  center|top
+	 * @return  void
+	 */
+	abstract protected function _do_smart_crop($width, $height, $position);
 
 	/**
 	 * Execute a rotation.

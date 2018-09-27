@@ -122,7 +122,15 @@ class Kohana_Image_Imagick extends Image {
 
 	protected function _do_grayscale ()
 	{
-		$this->im->negateImage (TRUE);
+	    $tmpfile = tempnam ('/tmp', 'imgck_');
+	    $this->im->writeImage($tmpfile);
+	    $gd = imagecreatefromstring(file_get_contents($tmpfile));
+		imagefilter($gd, IMG_FILTER_GRAYSCALE);
+		imagejpeg($gd, $tmpfile, 100);
+		imagedestroy($gd);
+    	$this->im = new Imagick();
+    	$this->im->readImage($tmpfile);
+    	@unlink ($tmpfile);
 	}
 
 	protected function _do_rotate($degrees)

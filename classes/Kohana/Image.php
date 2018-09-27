@@ -362,7 +362,7 @@ abstract class Kohana_Image {
 		return $this;
 	}
 
-	public function smart_crop ($width, $height, $position = NULL) 
+	public function smart_crop ($width, $height, $position = NULL)
 	{
 		if ($width > $this->width)
 		{
@@ -376,12 +376,18 @@ abstract class Kohana_Image {
 			$height = $this->height;
 		}
 
-		if ($position === NULL)		
+		if ($position === NULL)
 		{
 			$position = Image::CENTER;
 		}
-		
+
 		$this->_do_smart_crop($width, $height, $position);
+		return $this;
+	}
+
+	public function grayscale ()
+	{
+		$this->_do_grayscale ();
 		return $this;
 	}
 

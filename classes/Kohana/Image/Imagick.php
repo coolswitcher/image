@@ -106,7 +106,7 @@ class Kohana_Image_Imagick extends Image {
 			case Image::CENTER:
 				$this->im->cropThumbnailImage($width, $height);
 			break;
-			default:		
+			default:
 				if (($this->width/$width) < ($this->height/$height))
 				{
 				    $this->crop($this->width, round($height*$this->width/$width), 0, 0);
@@ -118,7 +118,12 @@ class Kohana_Image_Imagick extends Image {
 				//$this->im->resizeImage($width, NULL, Imagick::FILTER_LANCZOS, 0, FALSE);
 				$this->im->scaleImage($width, $height, FALSE);
 		}
-	}	
+	}
+
+	protected function _do_grayscale ()
+	{
+		$this->im->negateImage (TRUE);
+	}
 
 	protected function _do_rotate($degrees)
 	{

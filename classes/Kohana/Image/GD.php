@@ -238,6 +238,17 @@ class Kohana_Image_GD extends Image {
 		}
 	}
 
+	protected function _do_smart_crop ($width, $height, $position)
+	{
+		//todo
+	}
+
+	protected function _do_grayscale ()
+	{
+		$this->_load_image();
+		imagefilter($this->_image, IMG_FILTER_GRAYSCALE);
+	}
+
 	/**
 	 * Execute a rotation.
 	 *
